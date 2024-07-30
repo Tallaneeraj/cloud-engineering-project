@@ -1,69 +1,83 @@
 body {
-    text-align: center;
-    background-color: #011F3F;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    position: absolute;
-  }
-  
-  #level-title {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 3rem;
-    margin: 5%;
-    color: #FEF2BF;
-  }
-  
-  .container-fluid {
-    width: 100%;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  .btn1 {
-    margin: 25px;
-    height: 200px;
-    width: 200px;
-    border: 10px solid black;
-    border-radius: 20%;
-    cursor: pointer;
-  }
-  
-  .game-over {
-    background-color: red;
-    opacity: 0.8;
-  }
-  
-  .red {
-    background-color: red;
-  }
-  
-  .green {
-    background-color: green;
-  }
-  
-  .blue {
-    background-color: blue;
-  }
-  
-  .yellow {
-    background-color: yellow;
-  }
-  
-  .pressed {
-    box-shadow: 0 0 20px white;
-    background-color: grey;
-  }
-  
-  a {
-    color: pink;
-  }
-  
-  .btn {
-    width: 10rem;
-    height: 3rem;
-    margin-bottom: 15%;
-  }
+  text-align: center;
+  background-color: #011F3F;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+#level-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 3rem;
+  margin: 5%;
+  color: #FEF2BF;
+}
+
+
+.container-fluid {
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn1 {
+  margin: 25px;
+  height: 200px;
+  width: 200px;
+  border: 10px solid black;
+  border-radius: 20%;
+  cursor: pointer;
+}
+
+.game-over {
+  background-color: red;
+  opacity: 0.8;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.pressed {
+  box-shadow: 0 0 20px white;
+  background-color: grey;
+}
+
+a {
+  color: pink;
+}
+
+.btn {
+  width: 10rem;
+  height: 3rem;
+  margin-bottom: 15%;
+}
+
+#score-display {
+  margin: 20px;
+  font-family: 'Press Start 2P', cursive;
+  color: #FEF2BF;
+}
+
+
+#views-count{
+  margin: 20px;
+  font-family: 'Press Start 2P', cursive;
+  color: #FEF2BF;
+}

@@ -1,101 +1,125 @@
 var gamePattern = [];
 var started = false;
-var level=0;
+var level = 0;
 var userClickedPattern = [];
-
+var maxScore = 0;
 
 const buttonColours = ["red", "blue", "green", "yellow"];
 
+// Function to get views and max score from the Lambda function
+function getViewsAndMaxScore() {
+  $.ajax({
+    url: 'https://iac2d7doybz4k65neqveffypla0evenb.lambda-url.ap-south-1.on.aws/',
+    method: 'GET',
+    success: function(data) {
+      $('#views-count').text('Views: ' + data.views);
+      $('#score-display').text('Max Score: ' + data.max_score);
+      maxScore = data.max_score;
+    },
+    error: function(error) {
+      console.log('Error:', error);
+      $('#views-count').text('Views: Error loading views');
+      $('#score-display').text('Max Score: Error loading max score');
+    }
+  });
+}
 
-function nextSequence()
-{
+// Call the getViewsAndMaxScore function when the page loads
+$(document).ready(function() {
+  getViewsAndMaxScore();
+});
+
+function nextSequence() {
     userClickedPattern = [];
-    level = level+1;
-    $("#level-title").html("Level  "+ level);
-    var randomNumber = Math.floor(Math.random()*4);
-    var randomChosenColour = buttonColours [randomNumber];
+    level += 1;
+    $("#level-title").html("Level " + level);
+    var randomNumber = Math.floor(Math.random() * 4);
+    var randomChosenColour = buttonColours[randomNumber];
     gamePattern.push(randomChosenColour);
-    $('#'+ randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
-    playSound(randomChosenColour)
-   
-    
-
-
+    $('#' + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
+    playSound(randomChosenColour);
 }
 
 $(".btn1").click(function() {
     var userChosenColour = $(this).attr("id");
     userClickedPattern.push(userChosenColour);
-    //console.log(userClickedPattern);
-   
     playSound(userChosenColour);
     animatePress(userChosenColour);
-    checkAnswer(userClickedPattern.length-1);
+    checkAnswer(userClickedPattern.length - 1);
 });
 
-function playSound(name){
-    console .log(this.name);
-    var audio = new Audio("sounds/" + name+ ".mp3");
-  audio.play();
+function playSound(name) {
+    var audio = new Audio("sounds/" + name + ".mp3");
+    audio.play();
 }
 
-function animatePress(name){
-    $("#"+name).addClass("pressed");
-    setTimeout(function () {
-        $("#"+name).removeClass("pressed");     
+function animatePress(name) {
+    $("#" + name).addClass("pressed");
+    setTimeout(function() {
+        $("#" + name).removeClass("pressed");
     }, 100);
-
 }
 
-$(".btn").click(function () {
-    if (started==false){
+$(".btn").click(function() {
+    if (!started) {
         $("#level-title").text("Level " + level);
-    nextSequence();
-    started = true;
+        nextSequence();
+        started = true;
     }
     $(".title").addClass("hidden");
     $(".container-fluid").removeClass("hidden");
-    
-})
-
-
-
+    $("#score-display").addClass("hidden");
+});
 
 function checkAnswer(currentLevel) {
-
-    //3. Write an if statement inside checkAnswer() to check if the most recent user answer is the same as the game pattern. If so then log "success", otherwise log "wrong".
     if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
-
-      console.log("success");
-
-      //4. If the user got the most recent answer right in step 3, then check that they have finished their sequence with another if statement.
-      if (userClickedPattern.length === gamePattern.length){
-
-        //5. Call nextSequence() after a 1000 millisecond delay.
-        setTimeout(function () {
-          nextSequence();
-        }, 1000);
-
-      }
-
+        if (userClickedPattern.length === gamePattern.length) {
+            setTimeout(function() {
+                nextSequence();
+            }, 1000);
+        }
     } else {
-
-      $("body").addClass("game-over");
-      setTimeout(function () {$("body").removeClass("game-over");},500);
-      $("#level-title").text("Game Over, Press Any Key to Restart");
-      playSound("wrong");
-      $(".title").removeClass("hidden");
-      $(".container-fluid").addClass("hidden");
-      startOver();
-
+        $("body").addClass("game-over");
+        setTimeout(function() {
+            $("body").removeClass("game-over");
+        }, 500);
+        $("#level-title").text("Game Over, Press Any Key to Restart");
+        playSound("wrong");
+        showScore();
+        startOver();
     }
-
 }
 
-function startOver(){
-    level=0;
+function showScore() {
+    // Check if the current score is a new max score
+    if (level - 1 > maxScore) {
+        maxScore = level - 1;
+        updateMaxScore(maxScore);
+    }
+    $("#score-display").removeClass("hidden");
+    $("#score-display").text("Max Score: " + maxScore);
+}
+
+// Function to update the max score in the database
+function updateMaxScore(newScore) {
+  $.ajax({
+    url: 'https://35guedfmtxc64ytc3uamg7jbm40uboiu.lambda-url.ap-south-1.on.aws/',
+    method: 'POST',
+    data: JSON.stringify({ new_score: newScore }),
+    contentType: "application/json",
+    success: function(data) {
+      console.log('Max score updated successfully');
+    },
+    error: function(error) {
+      console.log('Error:', error);
+    }
+  });
+}
+
+function startOver() {
+    level = 0;
     gamePattern = [];
     started = false;
-    $(".btn").removeClass("hidden");
+    $(".title").removeClass("hidden");
+    $(".container-fluid").addClass("hidden");
 }
-

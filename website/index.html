@@ -7,12 +7,15 @@
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.814.0.min.js"></script>
 </head>
 <body>
   <h1 id="level-title">Welcome to Simon's Game</h1>
   <div class="title">
-    <button class="btn btn-success btn-lg"> Start</button>
+    <button class="btn btn-success btn-lg">Start</button>
     <a href="https://www.youtube.com/watch?v=EWJ5uYwQJGU&t=10s"><h2>Know How to Play</h2></a>
+    <h2 id="views-count">Views: Loading...</h2>
+    <h2 id="score-display">Max Score: Loading...</h2>
   </div>
   <div class="container-fluid hidden">
     <div class="row">
@@ -32,6 +35,6 @@
       </div>
     </div>
   </div>
-  <script src="index.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>

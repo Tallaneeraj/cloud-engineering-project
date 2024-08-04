@@ -49,7 +49,7 @@ $(".btn1").click(function() {
 });
 
 function playSound(name) {
-    var audio = new Audio("sounds/" + name + ".mp3");
+    var audio = new Audio("../website/sounds/" + name + ".mp3");
     audio.play();
 }
 
